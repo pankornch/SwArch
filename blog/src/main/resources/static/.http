@@ -1,0 +1,33 @@
+# OPEN WITH VS-CODE AND DOWNLOAD EXTENSION: Rest Client.
+@HOST=http://localhost:8080
+
+###
+GET {{HOST}}/api/v1/blogs HTTP/1.1
+
+
+###
+GET {{HOST}}/api/v1/blogs/53 HTTP/1.1
+
+
+###
+POST {{HOST}}/api/v1/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+    "detail": "Loreee@m", "author": "DDD"
+}
+
+
+###
+PUT {{HOST}}/api/v1/blogs/love/53 HTTP/1.1
+
+
+###
+PUT {{HOST}}/api/v1/blogs/53 HTTP/1.1
+Content-Type: application/json 
+
+{"id":1,"detail":"loremm","author":"BIG O","love":32,"postDate":"2020-12-12T00:00:00"}
+
+
+###
+DELETE {{HOST}}/api/v1/blogs/53 HTTP/1.1
