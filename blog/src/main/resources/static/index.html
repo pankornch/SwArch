@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IO Blog">
+    <meta name="author" content="Pankorn Ch">
+    <title>IO Blogs</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script defer src="index.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="add-blog">
+            <h3>New Blog</h3>
+            <form id="form">
+                <input type="text" id="new_detail" placeholder="Detail" required>
+                <input type="text" id="new_author" placeholder="Author" required>
+                <button type="submit" class="primary">Create</button>
+                <button class="secondary" id="clear">Clear</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>User id</td>
+                    <td>Detail</td>
+                    <td>Author</td>
+                    <td>Love</td>
+                    <td>Post Date</td>
+                    <td>Options</td>
+                </tr>
+            </thead>
+            <tbody id="content"></tbody>
+        </table>
+
+
+
+        <div id="modal" class="">
+            <h3 style="text-align: center;" id="modal_title">
+                Edit <span id="blog_id"></span></h3>
+            <input type="text" placeholder="Edit detail" id="edit_detail" />
+            <input type="text" placeholder="Edit author" id="edit_author" />
+            <input type="text" placeholder="Edit love" id="edit_love" />
+            <div>
+                <label for="edit_postDate">Edit post date</label>
+                <input type="date" id="edit_postDate" />
+            </div>
+            <div style="display: flex; align-self: center; justify-content: space-evenly; width: 100%;">
+                <button class="warning" id="save">Save</button>
+                <button class="secondary" id="cancel" >Cancel</button>
+            </div>
+            <button class="danger" id="delete">Delete</button>
+        </div>
+        <div id="backdrop" class="" onclick="modal.close()"></div>
+    </div>
+</body>
+
+</html>
