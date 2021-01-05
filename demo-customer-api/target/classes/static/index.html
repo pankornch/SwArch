@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="customer"></div>
+
+
+    <script>
+        const url = "http://localhost:8080";
+        let data = [];
+
+        const getData = async () => {
+            const res = await fetch(`${url}/customer`);
+            data = JSON.parse(await res.text());
+            render()
+        }
+
+        const render = () => {
+            const CUSTOMER = document.querySelector("#customer");
+            CUSTOMER.innerHTML = '';
+            const ul = document.createElement("ul");
+
+            data.forEach(el => {
+                const li = document.createElement("li");
+                const div = document.createElement("div");
+                li.innerHTML = `
+                            #${el.customerId}, first name: ${el.firstName}, last name:  ${el.lastName}
+                            <button onclick=delCustomer(${el.customerId})>Delete</button>`
+                ul.appendChild(li);
+
+            })
+            CUSTOMER.appendChild(ul);
+
+        }
+
+
+
+        const delCustomer = async (id) => {
+
+            const isConfirm = confirm(`Are you sure to delete #${id} ?`);
+            if (!isConfirm) return;
+
+            await fetch(`${url}/customer/${id}`, {
+                method: "delete"
+            })
+
+            alert(`Delete ${id} successful`);
+            
+            data = data.filter(e => e.customerId !== id);
+            render();
+            
+        }
+
+        (() => {
+            getData();
+        })()
+    </script>
+</body>
+
+</html>
