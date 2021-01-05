@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+    <title>Simple API 🙂</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            transition: 0.3s;
+        }
+        
+        .container {
+            width: 80vw;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content {
+            width: 60%;
+            margin: auto;
+            margin-top: 3rem;
+        }
+
+        .header {
+            display: grid;
+            grid-template-columns: 0.3fr 1fr 0.5fr 1fr;
+            margin-bottom: 2rem;
+        }
+
+
+        .card {
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 0.25rem;
+            box-shadow: 3px 1px 5px 0px rgba(0,0,0,0.3);
+        }
+
+        .card .card-body {
+            display: grid;
+            grid-template-columns: 0.3fr 1fr 0.5fr 1fr;
+        }
+
+        .card .card-body div{
+            align-self: center;
+        }
+
+        h4 {
+            font-size: 1.6rem;
+        }
+
+        h5 {
+            font-size: 1.5rem;
+        }
+
+        h6 {
+            font-size: 1rem;
+            color: rgba(0, 0, 0, 0.3);
+        }
+        .color-primary {
+            color: #0275d8;
+        }
+        .color-success {
+            color: #5cb85c;
+        }
+        .color-info {
+            color: #5bc0de;
+        }
+        #inputCartId {
+            width: 60%;
+            height: 2.5rem;
+            margin-top: 2rem;
+            padding: 0.5rem;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <input type="text" placeholder="cart id" id="inputCartId"  />
+        <div class="content" id="content">
+
+            <!---->
+        </div>
+    </div>
+
+    <script>
+    const getData = async (id = "") => {
+        document.getElementById("content").innerHTML = `
+        <div class="header">
+                <h3>Cart Id</h3>
+                <h3>Product Name/ Id</h3>
+                <h3>Price</h3>
+                <h3>Create Date</h3>
+            </div>
+        `;
+
+        const url = "http://localhost:8080/api/v1";
+        const res = await fetch(`${url}/carts/${id}`);
+        const jsonText = await res.text();
+        if (!jsonText) return;
+        let data = JSON.parse(jsonText);
+        if (id) data = [data];
+
+        const products = data.flatMap(c => {
+            if (c.products.length) {
+                return c.products.map(p => {
+                    delete c.products
+                    return ({ ...c, ...p})
+                })
+            }
+            return c
+        })
+        products.forEach(render);
+
+    }
+
+    const render = ({cartId, cartCreateDate, productId, productName, price}) => {
+        const CONTENT = document.getElementById("content");
+        const div = document.createElement("div");
+        div.innerHTML = `
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h4 id="cart-id" class="color-primary">#${cartId}</h4>
+                </div>
+                <div>
+                    <h4 id="product-name" class="color-success">${productName || "-"}</h4>
+                    <h6 id="product-id">#${productId || "-"}</h6>
+                </div>
+                <div>
+                    <h5 id="product-price" class="color-info">${price || "-"}</h5>
+                </div>
+                <div>
+                    <h6 id="product-create-date">${new Date(cartCreateDate)}</h5>
+                </div>
+            </div>
+        </div>
+        `
+
+        CONTENT.appendChild(div)
+    }
+
+    (() => {
+        getData()
+        document.getElementById("inputCartId").addEventListener("change", e => {
+            const val = e.target.value;
+            getData(val)
+        })
+       }
+    )()
+</script>
+</body>
+</html>
