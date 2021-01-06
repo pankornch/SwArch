@@ -1,7 +1,7 @@
 @HOST=http://localhost:8080
 
 ###
-GET {{HOST}}/customer HTTP/1.1
+GET {{HOST}}/customer/10 HTTP/1.1
 
 
 ###
@@ -19,9 +19,9 @@ PUT {{HOST}}/customer HTTP/1.1
 Content-Type: application/json
 
 {
-    "customerId": 1,
+    "customerId": 10,
     "firstName": "BIG O",
-    "lastName": "Notations"
+    "lastName": "Notationsss"
 }
 
 ###

@@ -5,9 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
+    <form id="form">
+        <label for="firstName">First name</label>
+        <input type="text" id="firstName" name="firstName">
+        <label for="lastName">Last name</label>
+        <input type="text" id="lastName" name="lastName">
+        <input type="submit" value="submit">
+    </form>
+
     <div id="customer"></div>
 
 
@@ -31,7 +40,8 @@
                 const div = document.createElement("div");
                 li.innerHTML = `
                             #${el.customerId}, first name: ${el.firstName}, last name:  ${el.lastName}
-                            <button onclick=delCustomer(${el.customerId})>Delete</button>`
+                            <button onclick=delCustomer(${el.customerId})>Delete</button>
+                            <i class="material-icons" onclick=loadEditPage(${el.customerId})>edit</i>`
                 ul.appendChild(li);
 
             })
@@ -39,7 +49,10 @@
 
         }
 
-
+        const loadEditPage = (id) => {
+            localStorage.id = id;
+            window.location = "edit-form.html";
+        }
 
         const delCustomer = async (id) => {
 
@@ -51,14 +64,37 @@
             })
 
             alert(`Delete ${id} successful`);
-            
+
             data = data.filter(e => e.customerId !== id);
             render();
-            
+
+        }
+
+        const listeners = () => {
+            document.getElementById("form").addEventListener("submit", async e => {
+                e.preventDefault();
+                const firstName = e.target.firstName.value;
+                const lastName = e.target.lastName.value;
+                const res = await fetch(`${url}/customer`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ firstName, lastName })
+                });
+
+                document.getElementById("firstName").value = "";
+                document.getElementById("lastName").value = "";
+
+                data.push(JSON.parse(await res.text()));
+
+                render();
+            })
         }
 
         (() => {
             getData();
+            listeners();
         })()
     </script>
 </body>
