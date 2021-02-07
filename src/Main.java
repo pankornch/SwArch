@@ -3,6 +3,7 @@ public class Main {
         Sizzer sizzer = new Sizzer();
         sizzer.showMenu();
         sizzer.enterMenu();
+        sizzer.getMember();
         sizzer.payment();
     }
 }

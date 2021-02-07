@@ -15,7 +15,7 @@ public class Sizzer {
     private boolean isMember;
 
     public void showMenu() {
-        String line = "=";
+        String line  = "=";
         line = line.repeat(48 / 2 );
 
 
@@ -36,21 +36,22 @@ public class Sizzer {
             Scanner scanner = new Scanner(System.in);
             String str = scanner.nextLine();
             String[] split = str.split(" ");
+            int i = Integer.parseInt(split[0]);
+            int n = Integer.parseInt(split[1]);
 
-            if (Integer.parseInt(split[0]) > prices.length) {
+            if (i > prices.length) {
                 System.out.println("---- END ----");
                 break;
-            } else if (split[0].equals("0") && split[1].equals("0")) {
-                this.getMember();
+            } else if (i == 0 && n == 0) {
                 break;
             }
 
-            this.sum += prices[Integer.parseInt(split[0]) - 1] * Integer.parseInt(split[1]);
+            this.sum += prices[i - 1] * n;
         }
 
     }
 
-    private void getMember() {
+    public void getMember() {
         System.out.print("Member ID (0 is not member): ");
         Scanner scanner = new Scanner(System.in);
         String member = scanner.next();
